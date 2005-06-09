@@ -14,14 +14,16 @@ ad_page_contract {
 # initial variables
 set page_title "Attendance Tasks"
 set context $page_title
-set package_id [ad_conn package_id]
 set community_id [dotlrn_community::get_community_id]
+set package_id [ad_conn package_id]
 
 # get grade info 
 attendance::get_grade_info -package_id $package_id
 
+ns_log Notice " -- Attendance Package ID : $package_id, Grade Item : $grade_item_id --"
+
 # check calendar items for session and turn them into attendance tasks
-attendance::add_sessions -community_id $community_id -grade_item_id $grade_item_id
+attendance::add_sessions -community_id $community_id -grade_item_id $grade_item_id -package_id $package_id
 
 set elements [list task_name \
 		  [list label "Task Name" \

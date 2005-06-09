@@ -7,6 +7,7 @@ ad_page_contract {
     @cvs-id $Id$
 } {
     item_id:integer,notnull
+    {return_url ""}
 } 
 
 # initial vars
@@ -19,9 +20,11 @@ set community_id [dotlrn_community::get_community_id]
 db_1row "getgradeid" "select task_id, task_name, due_date from evaluation_tasks where task_item_id = :item_id"
 set cal_item_id [db_string "get_cal_id" "select cal_item_id from evaluation_cal_task_map where task_item_id =:item_id"]
 
-set due_date_pretty [lc_time_fmt $due_date "%q %r"]
+calendar::item::get -cal_item_id $cal_item_id -array cal_item_info
 
-set message "<p>Mark the users who were present for $task_name on $due_date_pretty</p>"
+# set due_date_pretty [lc_time_fmt $due_date "%q %r"]
+
+set message "<p>Mark the users who were present for $task_name on $cal_item_info(full_start_date)</p>"
 
 template::list::create \
     -name eval_members \

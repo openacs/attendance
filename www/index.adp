@@ -1,4 +1,4 @@
 <master>
-<property name="title">Expenses</property
+<property name="title">Attendance</property
 
 <p>For admins only.
