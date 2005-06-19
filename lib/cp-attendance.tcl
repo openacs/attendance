@@ -1,8 +1,13 @@
 
-set current_url [ad_conn url]
+set current_url [ad_conn url]?[ad_conn query]
 
-set package_id [ad_conn package_id]
-set community_id [dotlrn_community::get_community_id]
+if {![info exists package_id]} {
+    set package_id [ad_conn package_id]
+}
+
+if {![info exists community_id]} {
+    set community_id [dotlrn_community::get_community_id]
+}
 
 set attendance_package_id [db_string "getattpack" "select object_id from acs_objects a, apm_packages b where a.object_id = b.package_id and a.context_id = :package_id and b.package_key = 'attendance';"]
 set attendance_url [apm_package_url_from_id $attendance_package_id]
@@ -29,16 +34,21 @@ template::list::create \
     -key task_id \
     -no_data "No sessions" \
     -elements {
-		task_name {
-			label "Session"
-		}
-		action {
-			label "Actions"
-			display_template { <a href="@calendar_url@cal-item-view?cal_item_id=@session_list.cal_item_id@" target="blank">Edit</a>  | <a href="@attendance_url@admin/mark?item_id=@session_list.item_id@&return_url=@current_url@">Mark Attendance</a> }
-		}
+	task_name {
+	    label "Session"
 	}
+	date_time {
+	    label "Date and Time"
+	}
+	action {
+	    label "Actions"
+	    html "nowrap"
+	    display_template { <a href="@calendar_url@cal-item-new?cal_item_id=@session_list.cal_item_id@&return_url=@current_url@" >Edit</a>  | <a href="@attendance_url@admin/mark?item_id=@session_list.item_id@&return_url=@current_url@"> Attendance</a> }
+	}
+    }
 
-db_multirow -extend {cal_item_id} session_list get_sessions { 
+
+db_multirow -extend {cal_item_id date_time} session_list get_sessions { 
 	select et.task_name, et.number_of_members, et.task_id, et.grade_item_id,
 		to_char(et.due_date,'YYYY-MM-DD HH24:MI:SS') as due_date_ansi, 
 		et.online_p, 
@@ -62,5 +72,14 @@ db_multirow -extend {cal_item_id} session_list get_sessions {
 	  and cri.live_revision = et.task_id
 	  and et.mime_type = crmt.mime_type
 } {
-	set cal_item_id [db_string "getcalid" "select cal_item_id from evaluation_cal_task_map where task_item_id=:item_id"]
+    set cal_item_id [db_string "getcalid" "select cal_item_id from evaluation_cal_task_map where task_item_id=:item_id"]
+    set date_time [db_string datetime {
+	select to_char(start_date, 'Mon dd, yyyy hh:miam-')||to_char(end_date, 'hh:miam')
+	from cal_items ci, acs_events e, acs_activities a, timespans s, time_intervals t
+	where e.timespan_id = s.timespan_id
+	and s.interval_id = t.interval_id
+	and e.activity_id = a.activity_id
+	and e.event_id = ci.cal_item_id
+	and ci.cal_item_id = :cal_item_id
+    } -default ""]
 }
