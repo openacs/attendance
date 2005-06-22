@@ -11,6 +11,7 @@
         <owner url="mailto:ham@solutiongrove.com">Solutiong Grove</owner>
 
         <requires url="evaluation" version="2.0"/>
+	<requires url="dotlrn" version="2.1.2d1"/>
 
         <callbacks>
 		<callback type="after-instantiate"  proc="attendance::apm_callback::package_instantiate"/>
