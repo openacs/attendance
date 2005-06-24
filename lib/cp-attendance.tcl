@@ -43,12 +43,12 @@ template::list::create \
 	action {
 	    label "Actions"
 	    html "nowrap"
-	    display_template { <a href="@calendar_url@cal-item-new?cal_item_id=@session_list.cal_item_id@&return_url=@current_url@" >Edit</a>  | <a href="@attendance_url@admin/mark?item_id=@session_list.item_id@&return_url=@current_url@"> Attendance</a> }
+	    display_template { <a href="@calendar_url@cal-item-new?cal_item_id=@session_list.cal_item_id@&return_url=@current_url@" >Edit</a>  | <a href="@attendance_url@admin/mark?item_id=@session_list.item_id@&return_url=@current_url@">Attendance</a> | <a href="@attendance_url@admin/task-delete?task_id=@session_list.task_id@&grade_id=@session_list.grade_id@&return_url=@current_url@"> Delete</a> }
 	}
     }
 
 
-db_multirow -extend {cal_item_id date_time} session_list get_sessions { 
+db_multirow -extend {cal_item_id date_time grade_id} session_list get_sessions { 
 	select et.task_name, et.number_of_members, et.task_id, et.grade_item_id,
 		to_char(et.due_date,'YYYY-MM-DD HH24:MI:SS') as due_date_ansi, 
 		et.online_p, 
@@ -73,6 +73,7 @@ db_multirow -extend {cal_item_id date_time} session_list get_sessions {
 	  and et.mime_type = crmt.mime_type
 } {
     set cal_item_id [db_string "getcalid" "select cal_item_id from evaluation_cal_task_map where task_item_id=:item_id"]
+    set grade_id [db_string "getgradeid" "select grade_id from evaluation_grades where grade_item_id = :grade_item_id"]
     set date_time [db_string datetime {
 	select to_char(start_date, 'Mon dd, yyyy hh:miam-')||to_char(end_date, 'hh:miam')
 	from cal_items ci, acs_events e, acs_activities a, timespans s, time_intervals t
