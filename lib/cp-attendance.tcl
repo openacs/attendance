@@ -23,7 +23,7 @@ set grade_item_id [db_string "getgradeid" "select eg.grade_item_id as grade_item
    		and ao.context_id = :attendance_package_id
 		and eg.grade_name = 'Attendance'"]
 
-ns_log Notice " -- Attendance Package ID : $attendance_package_id, Grade Item : $grade_item_id --"
+# ns_log Notice " -- Attendance Package ID : $attendance_package_id, Grade Item : $grade_item_id --"
 
 attendance::add_sessions -community_id $community_id -grade_item_id $grade_item_id -package_id $attendance_package_id
 
