@@ -35,7 +35,7 @@ template::list::create \
 	}
 	present {
 		label "Present"
-	    display_template { <input type=checkbox name=\"user_id\" value=\"@eval_members.user_id@\"  <if @eval_members.present@>checked</if>>  }
+	    	display_template { <input type=checkbox name=\"user_id\" value=\"@eval_members.user_id@\"  <if @eval_members.present@>checked</if>>  }
 	}
      }
 

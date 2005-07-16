@@ -16,12 +16,7 @@ ad_proc get_grade_info {
 	Retreives grade_id and grade_item_id from evaluation and sets them in the calling environment
 } {
 
-	uplevel 1 { db_0or1row "getgradeid" "select eg.grade_id as grade_id, eg.grade_item_id as grade_item_id, eg.grade_plural_name
-   	 	from evaluation_grades eg, acs_objects ao, cr_items cri
-		where cri.live_revision = eg.grade_id
-          	and eg.grade_item_id = ao.object_id
-   		and ao.context_id = :package_id
-		and eg.grade_name = 'Attendance'"}
+	uplevel 1 { db_0or1row "getgradeid" "" }
 }
 
 ad_proc create_task {
@@ -33,7 +28,7 @@ ad_proc create_task {
 	Create an attendance task
 } {
 
-	if { ![db_0or1row "checkmap" "select task_item_id from evaluation_cal_task_map where cal_item_id = :cal_item_id"] } {
+	if { ![db_0or1row "checkmap" {} ] } {
 
 		calendar::item::get -cal_item_id $cal_item_id -array cal_item_array
 		
@@ -74,12 +69,11 @@ ad_proc create_task {
 			where task_id = :revision_id
 		}
 		
-		db_dml link_content { update cr_revisions set content = :url where revision_id = :revision_id }
-		db_dml set_storage_type { update cr_items set storage_type = 'text' where item_id = :item_id }
+		db_dml "link_content" { }
+		db_dml "set_storage_type" { }
 		set content_length [string length $url]
-		db_dml content_size { update cr_revisions set content_length = :content_length where revision_id = :revision_id }
-	
-		db_dml insert_cal_mapping { insert into evaluation_cal_task_map (task_item_id,cal_item_id) values (:item_id,:cal_item_id) }
+		db_dml "content_size" { }
+		db_dml "insert_cal_mapping" {  }
 
 	}
 
