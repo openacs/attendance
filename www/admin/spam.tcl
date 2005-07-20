@@ -24,11 +24,8 @@ set context ""
 
 template::list::create \
     -name email_members \
-    -key user_id \
+    -key recipients \
     -multirow email_members \
-    -bulk_actions { 
-	"Email Checked" "" "Send Email to Checked Attendees"
-    } \
     -elements {
 	member_name { 
 		label "Name"
@@ -36,35 +33,24 @@ template::list::create \
 	attendance {
 		label "Attendance"
 	}
+	send_email {
+		label "Send Email"
+	    	display_template { <input type=checkbox name=\"recipients\" value=\"@email_members.user_id@\">  }
+	}
      }
 
-template::multirow create email_members user_id member_name attendance
+template::multirow create email_members user_id member_name attendance send_email
 
 set users [dotlrn_community::list_users  $community_id]
 set cal_item_id $item_id
 
 foreach user $users {	
 	if { [db_0or1row "checkattendance" "select user_id from attendance_cal_item_map where cal_item_id = :cal_item_id and user_id = [ns_set get $user user_id]"] } {
-		set attendance "Present"
+		set attendance "Present"		
 	} else {
 		set attendance "Absent"
 	}
-	template::multirow append email_members "[ns_set get $user user_id]" "[ns_set get $user first_names] [ns_set get $user last_name]" "$attendance"
+	template::multirow append email_members "[ns_set get $user user_id]" "[ns_set get $user first_names] [ns_set get $user last_name]" "$attendance" ""
 }
-
-# set query
-
-#if { $who == "present" } {
-#	set query "select user_id from attendance_cal_item_map where cal_item_id=:cal_item_id"
-#}
-
-#set recipients "?recipients="
-
-#db_foreach "get_ids" $query {
-#	append recipients "$user_id,"
-#}
-
-#append spam_url $recipients
-#append spam_url "&recipients_str=,&referrer=$return_url"
 
 #ad_returnredirect $spam_url
