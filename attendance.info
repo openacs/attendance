@@ -12,6 +12,7 @@
 
         <requires url="evaluation" version="2.0"/>
 	<requires url="dotlrn" version="2.1.2d1"/>
+	<provides url="attendance" version="0.1d"/>
 
         <callbacks>
 		<callback type="after-instantiate"  proc="attendance::apm_callback::package_instantiate"/>
