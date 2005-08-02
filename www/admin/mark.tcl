@@ -33,6 +33,12 @@ template::list::create \
 	member_name { 
 		label "Name"
 	}
+        medical_needs {
+		label "Medical Needs"
+        }
+        special_issues {
+		label "Special Issues"
+        }
 	present {
 		label "Present"
 	    	display_template { <input type=checkbox name=\"user_id\" value=\"@eval_members.user_id@\"  <if @eval_members.present@>checked</if>>  }
@@ -41,9 +47,11 @@ template::list::create \
 
 set users [dotlrn_community::list_users  $community_id]
 
-template::multirow create eval_members user_id member_name present
+template::multirow create eval_members user_id member_name medical_needs special_issues present
 
 foreach user $users {	
+	set medical_needs [db_string "get_medical_issues" "select allergies from person_info where person_id =:user_id"]
+        set special_issues [db_string "get_special_issues" "select special_needs from person_info where person_id = :user_id"]
 	set present [db_0or1row "checkattendance" "select user_id from attendance_cal_item_map where cal_item_id = :cal_item_id and user_id = [ns_set get $user user_id]"]
 	template::multirow append eval_members "[ns_set get $user user_id]" "[ns_set get $user first_names] [ns_set get $user last_name]" "$present"
 }
