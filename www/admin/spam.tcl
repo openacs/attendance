@@ -52,5 +52,3 @@ foreach user $users {
 	}
 	template::multirow append email_members "[ns_set get $user user_id]" "[ns_set get $user first_names] [ns_set get $user last_name]" "$attendance" ""
 }
-
-#ad_returnredirect $spam_url
