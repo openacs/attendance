@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <queryset>
 
-    <fullquery name="attendance::get_grade_info.gegradeid">
+    <fullquery name="attendance::get_grade_info.getgradeid">
         <querytext>	
 		select eg.grade_id as grade_id, eg.grade_item_id as grade_item_id, eg.grade_plural_name
    	 	from evaluation_grades eg, acs_objects ao, cr_items cri
