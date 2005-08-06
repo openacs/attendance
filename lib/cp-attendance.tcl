@@ -9,6 +9,10 @@ if {![info exists community_id]} {
     set community_id [dotlrn_community::get_community_id]
 }
 
+if {![info exists show_non_session_calendar_links]} {
+    set show_non_session_calendar_links 1
+}
+
 set attendance_package_id [db_string "getattpack" ""]
 set attendance_url [apm_package_url_from_id $attendance_package_id]
 set calendar_id [dotlrn_calendar::get_group_calendar_id -community_id $community_id]
