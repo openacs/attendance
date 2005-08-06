@@ -16,7 +16,12 @@ ad_proc get_grade_info {
 	Retreives grade_id and grade_item_id from evaluation and sets them in the calling environment
 } {
 
-	uplevel 1 { db_0or1row "getgradeid" "" }
+	uplevel 1 { db_0or1row "getgradeid" "select eg.grade_id as grade_id, eg.grade_item_id as grade_item_id, eg.grade_plural_name
+   	 	from evaluation_grades eg, acs_objects ao, cr_items cri
+		where cri.live_revision = eg.grade_id
+          	and eg.grade_item_id = ao.object_id
+   		and ao.context_id = :package_id
+		and eg.grade_name = 'Attendance'" }
 }
 
 ad_proc create_task {
