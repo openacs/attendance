@@ -2,6 +2,8 @@
 <property name="title">@page_title;noquote@</property>
 <property name="context">"@context;noquote@"</property>
 
+<a href="print?item_id=@item_id@" target="_blank">Printer Friendly View</a>
+
 @message;noquote@
 
 <form name="mark_attendance" action="mark-2" method="POST">
