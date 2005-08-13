@@ -41,7 +41,7 @@ template::list::create \
 	action {
 	    label "Actions"
 	    html "nowrap"
-	    display_template { <a href="@calendar_url@cal-item-new?cal_item_id=@session_list.cal_item_id@&return_url=@current_url@">Edit</a>  | <a href="@attendance_url@admin/mark?item_id=@session_list.item_id@&return_url=@current_url@">Attendance</a> | <a href="@attendance_url@admin/task-delete?task_id=@session_list.task_id@&grade_id=@session_list.grade_id@&return_url=@current_url@"> Delete</a> <br> <a href="@attendance_url@admin/spam?item_id=@session_list.cal_item_id@&return_url=@current_url@">Email Attendees</a> }
+	    display_template { <a href="@calendar_url@cal-item-new?cal_item_id=@session_list.cal_item_id@&return_url=@current_url@">Edit</a>  | <a href="@attendance_url@admin/mark?item_id=@session_list.item_id@&return_url=@current_url@">Attendance</a> | <a href="@attendance_url@admin/print?item_id=@session_list.item_id@" target='_blank'>Print</a> <br> <a href="@attendance_url@admin/task-delete?task_id=@session_list.task_id@&grade_id=@session_list.grade_id@&return_url=@current_url@"> Delete</a> | <a href="@attendance_url@admin/spam?item_id=@session_list.cal_item_id@&return_url=@current_url@">Email Attendees</a> }
 	}
     }
 
