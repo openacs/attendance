@@ -28,8 +28,19 @@ set message "<p>Attendance for <b>$task_name</b> on $cal_item_info(full_start_da
 
 set elements {member_name {label "Member Name"}}
 
-# append elements { medical_needs {label "Medical Needs"}}
-# append elements { special_issues {label "Special Issues"}}
+set custom_fields [parameter::get -package_id [apm_package_id_from_key dotlrn-ecommerce] -parameter CustomParticipantFields -default ""]
+
+if { [lsearch $custom_fields allergies] != -1 } {
+    lappend elements medical_needs {
+	label "Medical Needs"
+    }
+}
+
+if { [lsearch $custom_fields special_needs] != -1 } {
+    lappend elements special_issues {
+	label "Special Issues"
+    }
+}
 
 append elements { present {
 		label "Present"

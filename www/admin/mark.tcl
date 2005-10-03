@@ -26,24 +26,36 @@ calendar::item::get -cal_item_id $cal_item_id -array cal_item_info
 
 set message "<p>Mark the users who were present for $task_name on $cal_item_info(full_start_date)</p>"
 
+set elements {
+    member_name { 
+	label "Name"
+    }
+}
+
+set custom_fields [parameter::get -package_id [apm_package_id_from_key dotlrn-ecommerce] -parameter CustomParticipantFields -default ""]
+
+if { [lsearch $custom_fields allergies] != -1 } {
+    lappend elements medical_needs {
+	label "Medical Needs"
+    }
+}
+
+if { [lsearch $custom_fields special_needs] != -1 } {
+    lappend elements special_issues {
+	label "Special Issues"
+    }
+}
+
+lappend elements present {
+    label "Present"
+    display_template { <input type=checkbox name=\"user_id\" value=\"@eval_members.user_id@\"  <if @eval_members.present@>checked</if>>  }
+}
+
+
 template::list::create \
     -name eval_members \
     -multirow eval_members \
-    -elements {
-	member_name { 
-		label "Name"
-	}
-        medical_needs {
-		label "Medical Needs"
-        }
-        special_issues {
-		label "Special Issues"
-        }
-	present {
-		label "Present"
-	    	display_template { <input type=checkbox name=\"user_id\" value=\"@eval_members.user_id@\"  <if @eval_members.present@>checked</if>>  }
-	}
-     }
+    -elements $elements
 
 set users [dotlrn_community::list_users $community_id]
 
