@@ -10,7 +10,7 @@
     <version name="0.1d" url="http://openacs.org/repository/download/apm/attendance-0.1d.apm">
         <owner url="mailto:ham@solutiongrove.com">Solutiong Grove</owner>
 
-        <requires url="evaluation" version="2.0"/>
+        <requires url="evaluation" version="0.2d"/>
 	<requires url="dotlrn" version="2.1.2d1"/>
 	<provides url="attendance" version="0.1d"/>
 
