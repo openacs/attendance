@@ -17,7 +17,11 @@ set attendance_package_id [db_string "getattpack" ""]
 set attendance_url [apm_package_url_from_id $attendance_package_id]
 set calendar_id [dotlrn_calendar::get_group_calendar_id -community_id $community_id]
 set calendar_url [calendar_portlet_display::get_url_stub $calendar_id]
-set item_type_id [db_string item_type_id "" -default 0]
+
+if { ! [db_0or1row item_type_id {  }] } {
+	set item_type_id [calendar::item_type_new -calendar_id $calendar_id -type "Session"]
+}
+
 set grade_item_id [db_string "getgradeid" ""]
 
 # ns_log Notice " -- Attendance Package ID : $attendance_package_id, Grade Item : $grade_item_id --"
