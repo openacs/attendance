@@ -71,6 +71,8 @@ if { [db_0or1row item_type_id {  }] } {
 	}
 
 } else {
-	set attendance_msg "To use the Attendance Tracking feature you must create a \"Session\" designtation for calendar events. Click <a href=\"\">here</a> to let the system create the \"Session\" designation and enable attendance tracking."
+	set return_url [ad_return_url]
+	set create_session_type_url [export_vars -base "../attendance/admin/create-cal-session-type" { return_url calendar_id }]
+	set attendance_msg "To use the Attendance Tracking feature you must create a \"Session\" designtation for calendar events. Click <a href=\"$create_session_type_url\">here</a> to let the system create the \"Session\" designation and enable attendance tracking."
 }
 
