@@ -55,20 +55,25 @@ if { [db_0or1row item_type_id {  }] } {
 		}
 	}
 	
-	db_multirow -extend {session_name cal_item_id date_time grade_id} session_list get_sessions { } {
+	db_multirow -extend {session_name cal_item_id date_time grade_id date_time_serial} session_list get_sessions { } {
 	set cal_item_id [db_string "getcalid" "select cal_item_id from evaluation_cal_task_map where task_item_id=:item_id" -default ""]
 	set session_name [db_string "geteventname" "select name from acs_events where event_id=:cal_item_id" -default ""]
 	set grade_id [db_string "getgradeid" "select grade_id from evaluation_grades where grade_item_id = :grade_item_id" -default ""]
-	set date_time [db_string datetime {
-		select to_char(start_date, 'Mon dd, yyyy hh:miam-')||to_char(end_date, 'hh:miam')
+	
+        set date_time ""
+	set date_time_serial 0
+	db_0or1row datetime {
+		select to_char(start_date, 'Mon dd, yyyy hh:miam-')||to_char(end_date, 'hh:miam') as date_time, to_char(start_date, 'yyyymmddhhmi') as date_time_serial
 		from cal_items ci, acs_events e, acs_activities a, timespans s, time_intervals t
 		where e.timespan_id = s.timespan_id
 		and s.interval_id = t.interval_id
 		and e.activity_id = a.activity_id
 		and e.event_id = ci.cal_item_id
 		and ci.cal_item_id = :cal_item_id
-	} -default ""]
 	}
+	}
+
+	template::multirow sort session_list date_time_serial
 
 } else {
 	set return_url [ad_return_url]
