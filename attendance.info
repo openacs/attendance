@@ -8,7 +8,7 @@
     <singleton-p>f</singleton-p>
     
     <version name="0.1d" url="http://openacs.org/repository/download/apm/attendance-0.1d.apm">
-        <owner url="mailto:ham@solutiongrove.com">Solutiong Grove</owner>
+        <owner url="mailto:ham@solutiongrove.com">Solution Grove</owner>
 
         <requires url="evaluation" version="0.2d"/>
 	<requires url="dotlrn" version="2.1.2d1"/>
