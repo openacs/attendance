@@ -1,3 +1,4 @@
+<p><a class="button" href="@attendance_by_user_url@">Attendance by student</a></p>
 	<if @item_type_id@ defined>
 	<listtemplate name="session_list"></listtemplate>
 	<ul>

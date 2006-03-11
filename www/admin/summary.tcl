@@ -6,7 +6,8 @@ ad_page_contract {
     @creation-date May 2005
     @cvs-id $Id$
 } {
-    
+    {min_days:integer 0}
+    clear:optional
 } 
 
 set page_title "Summary"
@@ -22,6 +23,17 @@ set num_sessions [db_string num_sessions "select count(cal_item_id) from cal_ite
 
 # generate attendance summary per student
 
+ad_form -name min_days -form {
+    {min_days:integer(text) {label "Show students who have attended at least this many sessions"}}
+    {ok:text(submit) {label "OK"}}
+    {clear:text(submit) {label "Clear"}}
+}
+
+if {[info exists clear]} { 
+    ad_returnredirect "summary"
+    ad_script_abort
+}
+
 template::list::create \
     -name summary \
     -multirow summary \
@@ -33,7 +45,7 @@ template::list::create \
 	member_name { label "Student" }
 	attendance { label "Attendance" }
 	rate { label "Rate" }
-}
+    }
 
 set users [dotlrn_community::list_users  $community_id]
 
@@ -43,6 +55,7 @@ foreach user $users {
 	set user_id [ns_set get $user user_id]
 	set attendance [db_string "count" "select count(user_id) from attendance_cal_item_map where user_id = :user_id and cal_item_id in (select cal_item_id from cal_items where on_which_calendar = :calendar_id and item_type_id = :item_type_id )" ]
 	if { $attendance == 0 } { set rate "0" } else  { set rate [expr $num_sessions/$attendance*100] }
-	template::multirow append summary "[ns_set get $user first_names] [ns_set get $user last_name]"  "$attendance of $num_sessions" "$rate %"
+    if {$attendance >= $min_days} {	template::multirow append summary "[ns_set get $user first_names] [ns_set get $user last_name]"  "$attendance of $num_sessions" "$rate %"
+    }
 }
 
