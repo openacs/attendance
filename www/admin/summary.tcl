@@ -54,7 +54,7 @@ template::multirow create summary member_name attendance rate
 foreach user $users {
 	set user_id [ns_set get $user user_id]
 	set attendance [db_string "count" "select count(user_id) from attendance_cal_item_map where user_id = :user_id and cal_item_id in (select cal_item_id from cal_items where on_which_calendar = :calendar_id and item_type_id = :item_type_id )" ]
-	if { $attendance == 0 } { set rate "0" } else  { set rate [expr $num_sessions/$attendance*100] }
+    if { $num_sessions == 0 } { set rate "0" } else  { set rate [format "% .2f" [expr (${attendance}.0/$num_sessions)*100]] }
     if {$attendance >= $min_days} {	template::multirow append summary "[ns_set get $user first_names] [ns_set get $user last_name]"  "$attendance of $num_sessions" "$rate %"
     }
 }
