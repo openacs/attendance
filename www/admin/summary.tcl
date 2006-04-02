@@ -34,9 +34,15 @@ if {[info exists clear]} {
     ad_script_abort
 }
 
+if {[attendance_certificate::reportlab_available_p]} {
+    set bulk_actions {"Print Certificates" "certificates" "Print Course Completion Certificates"}
+} else {
+    set bulk_actions ""
+}
 template::list::create \
     -name summary \
     -multirow summary \
+    -bulk_actions $bulk_actions \
     -actions {
 	"Back to Attendance Tasks" "index" ""
     } -key user_id \
@@ -44,18 +50,18 @@ template::list::create \
     -elements {
 	member_name { label "Student" }
 	attendance { label "Attendance" }
-	rate { label "Rate" }
+	rate { label "Rate" display_template {<div style="text-align:right;">@summary.rate@</div>}}
     }
 
 set users [dotlrn_community::list_users  $community_id]
 
-template::multirow create summary member_name attendance rate
+template::multirow create summary member_name attendance rate user_id
 
 foreach user $users {
 	set user_id [ns_set get $user user_id]
 	set attendance [db_string "count" "select count(user_id) from attendance_cal_item_map where user_id = :user_id and cal_item_id in (select cal_item_id from cal_items where on_which_calendar = :calendar_id and item_type_id = :item_type_id )" ]
-    if { $num_sessions == 0 } { set rate "0" } else  { set rate [format "% .2f" [expr (${attendance}.0/$num_sessions)*100]] }
-    if {$attendance >= $min_days} {	template::multirow append summary "[ns_set get $user first_names] [ns_set get $user last_name]"  "$attendance of $num_sessions" "$rate %"
+    if { $num_sessions == 0 } { set rate "0" } else  { set rate [format "% .0f" [expr (${attendance}.0/$num_sessions)*100]] }
+    if {$attendance >= $min_days} {	template::multirow append summary "[ns_set get $user first_names] [ns_set get $user last_name]"  "$attendance of $num_sessions" "$rate %" $user_id
     }
 }
 
