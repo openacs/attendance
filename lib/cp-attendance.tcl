@@ -63,7 +63,7 @@ if { [db_0or1row item_type_id {  }] } {
         set date_time ""
 	set date_time_serial 0
 	db_0or1row datetime {
-		select to_char(start_date, 'Mon dd, yyyy hh:miam-')||to_char(end_date, 'hh:miam') as date_time, to_char(start_date, 'yyyymmddhhmi') as date_time_serial
+		select to_char(start_date, 'Mon dd, yyyy hh:miam-')||to_char(end_date, 'hh:miam') as date_time, to_char(start_date, 'yyyymmddhh24mi') as date_time_serial
 		from cal_items ci, acs_events e, acs_activities a, timespans s, time_intervals t
 		where e.timespan_id = s.timespan_id
 		and s.interval_id = t.interval_id
@@ -72,7 +72,6 @@ if { [db_0or1row item_type_id {  }] } {
 		and ci.cal_item_id = :cal_item_id
 	}
 	}
-
 	template::multirow sort session_list date_time_serial
 
 } else {
