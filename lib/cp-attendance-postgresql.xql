@@ -34,7 +34,7 @@
 			where cr.revision_id = et.revision_id
 			and grade_item_id = :grade_item_id
 			and cri.live_revision = et.task_id
-			and et.mimre_type = crmt.mime_type
+			and et.mime_type = crmt.mime_type
 			order by due_date asc
 		</querytext>
 	</fullquery>

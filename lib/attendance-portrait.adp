@@ -24,9 +24,11 @@
               height="1in"/>
           <frame id="f4" x1=".5in" y1="4in" width="7.5in"
               height="2in"/>
-          <frame id="f5" x1=".5in" y1="2in" width="7.5in"
+          <frame id="f5" x1=".5in" y1="3in" width="7.5in"
               height="2in"/>
-          <frame id="f7" x1=".5in" y1=".5in" width="7.5in"
+          <frame id="f5" x1=".5in" y1="1.5in" width="7.5in"
+              height="2in"/>
+          <frame id="f7" x1=".5in" y1=".75in" width="7.5in"
               height="1in"/>
     </pageTemplate>
 </template>
@@ -111,6 +113,9 @@
    <td><para style="sigData">@signature_2;noquote@</para></td>
    <td><para style="sigData">@signature_3;noquote@</para></td>
   </tr>
+ </blockTable>
+<nextFrame/>
+ <blockTable style="sig">
   <tr>
    <td><para style="sigData">@signature_4;noquote@</para></td>
    <td><para style="sigData">@signature_5;noquote@</para></td>

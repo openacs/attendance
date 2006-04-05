@@ -22,7 +22,7 @@ if {![exists_and_not_null user_id]} {
 
 set package_id [ad_conn package_id]
 # setup multirow of user data
-
+set user_id [split $user_id]
 ad_form -name certificates \
     -html { enctype multipart/form-data } \
     -export {user_id community_id} \
@@ -192,7 +192,7 @@ ad_form -extend -name certificates -form {
 	ad_return_complaint 1 "$errmsg"
 	
     }
-    ns_set put [ad_conn outputheaders] file-disposition "certificates.pdf"
+    ns_set put [ad_conn outputheaders] content-disposition "attachment; filename=certificates-[util_text_to_url -text ${community_name}]-[clock format [clock seconds] -format "%Y%m%d-%H%M"].pdf"
     ns_returnfile 200 application/pdf $pdf_tmpname
     file delete $rml_tmpname
     file delete $pdf_tmpname
