@@ -2,5 +2,6 @@ ad_page_contract {
 	diplay certificate logo image
 }
 
-set image_id [string trim [ad_conn path_info] /]
-cr_write_content -item_id $image_id
+set revision_id [string trim [ad_conn path_info] /]
+
+cr_write_content -revision_id $revision_id

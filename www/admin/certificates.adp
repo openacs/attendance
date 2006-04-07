@@ -1,12 +1,13 @@
 <master>
 <property name="header_stuff"><style>.cert-info {text-align:center;}</style></property>
+@package_id@
 <formtemplate id="certificates">
 <table>
 <tr>
 <td colspan="3">Current logo image: <formwidget id="image_info"></td>
 </tr>
 <tr>
-<td colspan="3">Upload logo image: <formwidget id="image_file"><if @site_wide_admin_p@ true><formwidget id="set_sw_submit"></if><formwidget id="use_sw_submit"></td>
+<td colspan="3">Upload logo image: <formwidget id="image_file"><formwidget id="new_image"><if @site_wide_admin_p@ true><formwidget id="set_sw_submit"></if><formwidget id="use_sw_submit"></td>
 </tr>
 <tr>
 <td colspan="3" class="cert-info">

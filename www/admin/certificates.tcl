@@ -46,6 +46,7 @@ if {$site_wide_admin_p} {
     }
 }
 ad_form -extend -name certificates -form {
+    {new_image:text(submit) {label "Upload new image"}}
     {use_sw_submit:text(submit) {label "Use site wide default"}}
     {certificate:text,optional {label ""} {html {size 60}}}
     {this_certifies:text,optional {label ""} {html {size 60}}}
@@ -63,9 +64,10 @@ ad_form -extend -name certificates -form {
     {signature_6:text(textarea),optional {label ""} {html {cols 30}}}
     {continuing_ed_credit_info:text(textarea) {label ""} {html {cols 70 rows 6}}}
 } -on_request {
-    set image_id [db_string get_image_info "select item_id from cr_items where parent_id=:package_id" -default ""]
+    set image_id ""
+    db_0or1row get_image_info "select item_id as image_id, live_revision as image_revision_id from cr_items where parent_id=:package_id"
     if {$image_id ne ""} {
-	set image_info "<img src='../image/${image_id}' alt='Certificate logo image' height='200'/>"
+	set image_info "<img src='../image/${image_revision_id}' alt='Certificate logo image' height='200'/>"
     } else {
 	set image_info "No current logo image"
     }
@@ -119,6 +121,10 @@ ad_form -extend -name certificates -form {
 	}
     }
 
+    if {[info exists new_image] && $new_image ne ""} {
+	ad_returnredirect -message "Using site wide default" [export_vars -base "certificates" {user_id community_id certificate certifies_that attended description_label course_description community_name instructors signature_1 signature_2 signature_3 signature_4 signature_5 signature_6 continuting_ed_credit_info}]
+	ad_script_abort
+    }
     if {[info exists use_sw_submit] && $use_sw_submit ne ""} {
 	if {$image_id eq ""} {
 	    set image_id [content::item::new \
@@ -126,16 +132,19 @@ ad_form -extend -name certificates -form {
 			      -parent_id $package_id \
 			      -content_type "image"]
 	}
-	set image_id [content::revision::copy \
+
+	set image_revision_id [content::revision::copy \
 			  -revision_id [content::item::get_latest_revision \
 					    -item_id \
 					    [content::item::get_id \
 						 -item_path "__attendance_default_logo_image" \
 						 -root_folder_id [dotlrn::get_package_id]]] \
 			  -target_item_id $image_id]
-	content::item::set_live_revision -revision_id [content::item::get_latest_revision -item_id $image_id]
+
+	content::item::set_live_revision -revision_id $image_revision_id
 	
 	ad_returnredirect -message "Using site wide default" [export_vars -base "certificates" {user_id community_id certificate certifies_that attended description_label course_description community_name instructors signature_1 signature_2 signature_3 signature_4 signature_5 signature_6 continuting_ed_credit_info}]
+	ad_script_abort
     }
 
     if {[info exists set_sw_submit] && $set_sw_submit ne ""} {
@@ -165,7 +174,7 @@ ad_form -extend -name certificates -form {
 	    content::item::set_live_revision -revision_id [content::item::get_live_revision -item_id $site_wide_image_id]
 	}
 	ad_returnredirect -message "Using site wide default" [export_vars -base "certificates" {user_id community_id certificate certifies_that attended description_label course_description community_name instructors signature_1 signature_2 signature_3 signature_4 signature_5 signature_6 continuting_ed_credit_info}]
-
+	ad_script_abort
     }
 
     set user_id [split $user_id]
