@@ -1,3 +1,4 @@
+
 ad_page_contract {
 	Generate PDF for certificates
 } -query {
@@ -20,9 +21,14 @@ if {![exists_and_not_null user_id]} {
 }
 # setup course section info
 
-set package_id [ad_conn package_id]
-# setup multirow of user data
-set user_id [split $user_id]
+set package_id [ad_conn package_id] 
+
+#setup multirow of user data we
+# can't use multiple in a hidden variable and the multiple in
+# ad_page_contract messes up the curly braces so throw them away to be
+# safe since we might export user_id as a URL variable in a redirect
+set user_id [split [string trim $user_id \{\}]]
+
 ad_form -name certificates \
     -html { enctype multipart/form-data } \
     -export {user_id community_id} \
@@ -127,7 +133,7 @@ ad_form -extend -name certificates -form {
 				   -item_path "__attendance_default_logo_image" \
 				   -root_folder_id [dotlrn::get_package_id]]] \
 	    -target_item_id $image_id
-
+	
 	ad_returnredirect -message "Using site wide default" [export_vars -base "certificates" {user_id community_id certificate certifies_that attended description_label course_description community_name instructors signature_1 signature_2 signature_3 signature_4 signature_5 signature_6 continuting_ed_credit_info}]
     }
 
@@ -172,7 +178,9 @@ ad_form -extend -name certificates -form {
 
     if {$image_id ne ""} {
 	set image_cr_file_path [cr_fs_path][db_string get_path "select content from cr_revisions cr, cr_items ci where ci.item_id=:image_id and ci.live_revision=cr.revision_id" -default ""]
-	lappend vars image_cr_file_path $image_cr_file_path
+	if {[file exists $image_cr_file_path]} {
+	    lappend vars image_cr_file_path $image_cr_file_path
+	}
     }
 
     foreach i {1 2 3 4 5 6} {

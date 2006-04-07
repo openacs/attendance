@@ -16,20 +16,19 @@
     <pageTemplate id="main">
           <pageGraphics>
           </pageGraphics>
-          <frame id="f1" x1=".5in" y1="8in" width="7.5in"
+          <frame id="f1" x1=".5in" y1="7in" width="7.5in"
+              height="1.5in"/>
+          <frame id="f2" x1=".5in" y1="5.5in" width="7.5in"
+              height="1.5in"/>
+          <frame id="f3" x1=".5in" y1="4in" width="7.5in"
+              height="1.5in"/>
+          <frame id="f4" x1=".5in" y1="2.5in" width="7.5in"
+              height="1.5in"/>
+          <frame id="f5" x1=".5in" y1="1in" width="7.5in"
+              height="1.5in"/>
+          <frame id="f6" x1=".5in" y1="0in" width="7.5in"
               height="1in"/>
-          <frame id="f2" x1=".5in" y1="7in" width="7.5in"
-              height="1in"/>
-          <frame id="f3" x1=".5in" y1="6in" width="7.5in"
-              height="1in"/>
-          <frame id="f4" x1=".5in" y1="4in" width="7.5in"
-              height="2in"/>
-          <frame id="f5" x1=".5in" y1="3in" width="7.5in"
-              height="2in"/>
-          <frame id="f5" x1=".5in" y1="1.5in" width="7.5in"
-              height="2in"/>
-          <frame id="f7" x1=".5in" y1=".75in" width="7.5in"
-              height="1in"/>
+
     </pageTemplate>
 </template>
 <stylesheet>
@@ -39,23 +38,26 @@
     <paraStyle name="h1"
     fontName="Times-Roman"
     fontSize="20"
-    spaceBefore="1cm"
-    spaceAfter="1cm"
+    leading="21"
+    spaceBefore=".1cm"
+    spaceAfter=".1cm"
     alignment="CENTER"
      />
     <paraStyle name="h2"
     fontName="Times-Roman"
     fontSize="18"
-    spaceBefore="1cm"
-    spaceAfter="1cm"
+    leading="19"
+    spaceBefore=".1cm"
+    spaceAfter=".1cm"
     alignment="CENTER"
      />
      <paraStyle name="p"
      fontName="Times-Roman"
      fontSize="14"
+     leading="16"
      leftIndent="5"
-     spaceBefore=".25cm"
-     spaceAfter=".25cm"
+     spaceBefore=".1cm"
+     spaceAfter=".1cm"
      alignment="CENTER"
      />
      <blockTableStyle id="sig">
@@ -94,6 +96,7 @@
   <para style="p">
    <b>@attended@</b>
   </para>
+<nextFrame name="f2"/>
   <para style="h2">
    <b>@community_name@</b>
   </para>
@@ -103,10 +106,11 @@
    <para style="p">
     <b>@date@</b>
    </para>
+<nextFrame name="f3"/>
    <para style="p">
     <b>@description_label@ @course_description@</b>
    </para>
-<nextFrame/>
+<nextFrame name="f4"/>
  <blockTable style="sig">
   <tr>
    <td><para style="sigData">@signature_1;noquote@</para></td>
@@ -114,7 +118,7 @@
    <td><para style="sigData">@signature_3;noquote@</para></td>
   </tr>
  </blockTable>
-<nextFrame/>
+<nextFrame name="f5"/>
  <blockTable style="sig">
   <tr>
    <td><para style="sigData">@signature_4;noquote@</para></td>
@@ -122,7 +126,7 @@
    <td><para style="sigData">@signature_6;noquote@</para></td>
   </tr>
  </blockTable>
-<nextFrame/>
+<nextFrame name="f6"/>
  <para style="footer">
 	@continuing_ed_credit_info@
  </para>
