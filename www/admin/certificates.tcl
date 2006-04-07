@@ -126,13 +126,14 @@ ad_form -extend -name certificates -form {
 			      -parent_id $package_id \
 			      -content_type "image"]
 	}
-	content::revision::copy \
-	    -revision_id [content::item::get_latest_revision \
-			      -item_id \
-			      [content::item::get_id \
-				   -item_path "__attendance_default_logo_image" \
-				   -root_folder_id [dotlrn::get_package_id]]] \
-	    -target_item_id $image_id
+	set image_id [content::revision::copy \
+			  -revision_id [content::item::get_latest_revision \
+					    -item_id \
+					    [content::item::get_id \
+						 -item_path "__attendance_default_logo_image" \
+						 -root_folder_id [dotlrn::get_package_id]]] \
+			  -target_item_id $image_id]
+	content::item::set_live_revision -revision_id [content::item::get_latest_revision -item_id $image_id]
 	
 	ad_returnredirect -message "Using site wide default" [export_vars -base "certificates" {user_id community_id certificate certifies_that attended description_label course_description community_name instructors signature_1 signature_2 signature_3 signature_4 signature_5 signature_6 continuting_ed_credit_info}]
     }
@@ -161,7 +162,7 @@ ad_form -extend -name certificates -form {
 		-revision_id [content::item::get_live_revision \
 		     -item_id $image_id] \
 		-target_item_id $site_wide_image_id 
-		
+	    content::item::set_live_revision -revision_id [content::item::get_live_revision -item_id $site_wide_image_id]
 	}
 	ad_returnredirect -message "Using site wide default" [export_vars -base "certificates" {user_id community_id certificate certifies_that attended description_label course_description community_name instructors signature_1 signature_2 signature_3 signature_4 signature_5 signature_6 continuting_ed_credit_info}]
 
