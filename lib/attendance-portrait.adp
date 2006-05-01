@@ -15,20 +15,28 @@
           <!-- limits of frames                                              -->
     <pageTemplate id="main">
           <pageGraphics>
+          <lineMode width="2" cap="round"/>
+ 	   <lines>.2in 10.8in 8.3in 10.8in
+		  .2in .2in 8.3in .2in
+                  .2in .2in .2in 10.8in
+                  8.3in .2in 8.3in 10.8in
+ 	   </lines>
+	  <if @image_cr_file_path@ not nil>
+           <image file="@image_cr_file_path@" x=".5in" y="8.5in" width="6.5in"/>
+	  </if>
           </pageGraphics>
-          <frame id="f1" x1=".5in" y1="7in" width="7.5in"
+          <frame id="f1" x1=".25in" y1="6.5in" width="8in"
               height="1.5in"/>
-          <frame id="f2" x1=".5in" y1="5.5in" width="7.5in"
-              height="1.5in"/>
-          <frame id="f3" x1=".5in" y1="4in" width="7.5in"
-              height="1.5in"/>
-          <frame id="f4" x1=".5in" y1="2.5in" width="7.5in"
-              height="1.5in"/>
-          <frame id="f5" x1=".5in" y1="1in" width="7.5in"
-              height="1.5in"/>
-          <frame id="f6" x1=".5in" y1="0in" width="7.5in"
-              height="1in"/>
-
+          <frame id="f2" x1=".25in" y1="5in" width="8in"
+              height="1.2in"/>
+          <frame id="f3" x1=".25in" y1="3in" width="8in"
+              height="2in"/>
+          <frame id="f4" x1=".25in" y1="2in" width="8in"
+              height=".8in"/>
+          <frame id="f5" x1=".25in" y1=".7in" width="8in"
+              height=".8in"/>
+          <frame id="f6" x1=".25in" y1=".2in" width="8in"
+              height=".5in"/>
     </pageTemplate>
 </template>
 <stylesheet>
@@ -37,10 +45,10 @@
     </initialize>
     <paraStyle name="h1"
     fontName="Times-Roman"
-    fontSize="20"
+    fontSize="24"
     leading="21"
-    spaceBefore=".1cm"
-    spaceAfter=".1cm"
+    spaceBefore=".4cm"
+    spaceAfter=".4cm"
     alignment="CENTER"
      />
     <paraStyle name="h2"
@@ -74,16 +82,11 @@
      fontSize="10"
      leftIndent="5"
      spaceBefore=".1cm"
-     spaceAfter=".1cm"
+     spaceAfter="0cm"
      />
 </stylesheet>
 <story>
  <multiple name="users">
-	<if @image_cr_file_path@ not nil>
-  <illustration>
-   <image file="@image_cr_file_path@" x=".40in" y="0" width="6.5in"/>
-  </illustration>
-	</if>
   <para style="h1">
    @certificate@
   </para>

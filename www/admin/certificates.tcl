@@ -1,4 +1,3 @@
-
 ad_page_contract {
 	Generate PDF for certificates
 } -query {
@@ -7,7 +6,6 @@ ad_page_contract {
     image_file:trim,optional
     image_file.tmpfile:tmpfile,optional
 }
-
 if {![attendance_certificate::reportlab_available_p]} {
     ad_return_complaint 1 "ReportLab is not available. Please contact your system administrator."
     ad_script_abort
@@ -23,7 +21,7 @@ if {![exists_and_not_null user_id]} {
 
 set package_id [ad_conn package_id] 
 
-#setup multirow of user data we
+# setup multirow of user data we
 # can't use multiple in a hidden variable and the multiple in
 # ad_page_contract messes up the curly braces so throw them away to be
 # safe since we might export user_id as a URL variable in a redirect
@@ -42,12 +40,12 @@ set site_wide_admin_p [permission::permission_p \
 	 -privilege "admin"]
 if {$site_wide_admin_p} {
     ad_form -extend -name certificates -form {
-	{set_sw_submit:text(submit) {label "Make site wide default"}}
+	{set_sw_submit:text(submit) {label "Make this the site wide default image"}}
     }
 }
 ad_form -extend -name certificates -form {
-    {new_image:text(submit) {label "Upload new image"}}
-    {use_sw_submit:text(submit) {label "Use site wide default"}}
+    {new_image:text(submit) {label "Upload custom image"}}
+    {use_sw_submit:text(submit) {label "Use the default image"}}
     {certificate:text,optional {label ""} {html {size 60}}}
     {this_certifies:text,optional {label ""} {html {size 60}}}
     {attended:text,optional {label ""} {html {size 60}}}
@@ -69,9 +67,8 @@ ad_form -extend -name certificates -form {
     if {$image_id ne ""} {
 	set image_info "<img src='../image/${image_revision_id}' alt='Certificate logo image' height='200'/>"
     } else {
-	set image_info "No current logo image"
+	set image_info "An image has not been selected, please pick one"
     }
-
     set certificate [_ attendance.CERTIFICATE_OF_ATTENDANCE]
     set this_certifies [_ attendance.This_certifies_that]
     set attended [_ attendance.Attended]
@@ -122,7 +119,7 @@ ad_form -extend -name certificates -form {
     }
 
     if {[info exists new_image] && $new_image ne ""} {
-	ad_returnredirect -message "Using site wide default" [export_vars -base "certificates" {user_id community_id certificate certifies_that attended description_label course_description community_name instructors signature_1 signature_2 signature_3 signature_4 signature_5 signature_6 continuting_ed_credit_info}]
+	ad_returnredirect -message "Using the default image" [export_vars -base "certificates" {user_id community_id certificate certifies_that attended description_label course_description community_name instructors signature_1 signature_2 signature_3 signature_4 signature_5 signature_6 continuting_ed_credit_info}]
 	ad_script_abort
     }
     if {[info exists use_sw_submit] && $use_sw_submit ne ""} {
@@ -143,7 +140,7 @@ ad_form -extend -name certificates -form {
 
 	content::item::set_live_revision -revision_id $image_revision_id
 	
-	ad_returnredirect -message "Using site wide default" [export_vars -base "certificates" {user_id community_id certificate certifies_that attended description_label course_description community_name instructors signature_1 signature_2 signature_3 signature_4 signature_5 signature_6 continuting_ed_credit_info}]
+	ad_returnredirect -message "Using the default image" [export_vars -base "certificates" {user_id community_id certificate certifies_that attended description_label course_description community_name instructors signature_1 signature_2 signature_3 signature_4 signature_5 signature_6 continuting_ed_credit_info}]
 	ad_script_abort
     }
 
@@ -159,8 +156,6 @@ ad_form -extend -name certificates -form {
 	    if {[set site_wide_image_id [content::item::get_id \
 					     -item_path "__attendance_default_logo_image" \
 					     -root_folder_id [dotlrn::get_package_id]]] eq ""} {
-		
-		
 		set site_wide_image_id \
 		    [content::item::new \
 			 -name "__attendance_default_logo_image" \
@@ -173,7 +168,7 @@ ad_form -extend -name certificates -form {
 		-target_item_id $site_wide_image_id 
 	    content::item::set_live_revision -revision_id [content::item::get_live_revision -item_id $site_wide_image_id]
 	}
-	ad_returnredirect -message "Using site wide default" [export_vars -base "certificates" {user_id community_id certificate certifies_that attended description_label course_description community_name instructors signature_1 signature_2 signature_3 signature_4 signature_5 signature_6 continuting_ed_credit_info}]
+	ad_returnredirect -message "Using default image" [export_vars -base "certificates" {user_id community_id certificate certifies_that attended description_label course_description community_name instructors signature_1 signature_2 signature_3 signature_4 signature_5 signature_6 continuting_ed_credit_info}]
 	ad_script_abort
     }
 

@@ -1,13 +1,15 @@
 <master>
 <property name="header_stuff"><style>.cert-info {text-align:center;}</style></property>
-@package_id@
 <formtemplate id="certificates">
-<table>
+<table align="center">
 <tr>
-<td colspan="3">Current logo image: <formwidget id="image_info"></td>
+<td colspan="3">Current image: <formwidget id="image_info"></td>
 </tr>
 <tr>
-<td colspan="3">Upload logo image: <formwidget id="image_file"><formwidget id="new_image"><if @site_wide_admin_p@ true><formwidget id="set_sw_submit"></if><formwidget id="use_sw_submit"></td>
+<td colspan="3">Use default image: <formwidget id="use_sw_submit"></td>
+</tr>
+<tr>
+<td colspan="2">Upload custom image: <formwidget id="image_file"><formwidget id="new_image"><if @site_wide_admin_p@ true><formwidget id="set_sw_submit"></if></td>
 </tr>
 <tr>
 <td colspan="3" class="cert-info">
@@ -21,7 +23,7 @@
 </tr>
 <tr>
 <td colspan="3" class="cert-info">
-Participant's name will appear here
+[Name]
 </td>
 </tr>
 <tr>
@@ -30,13 +32,13 @@ Participant's name will appear here
 </td>
 </tr>
 <tr>
-<td colspan="3" class="cert-info">
+<td colspan="3" class="cert-info">Title: 
 <formwidget id="community_name">
 </td>
 </tr>
 <tr>
 <td colspan="3" class="cert-info">
-<formwidget id="date">
+Date: <formwidget id="date">
 </td>
 </tr>
 <tr>
@@ -51,7 +53,7 @@ Instructors<br />
 </td>
 <tr>
 <td colspan="3" class="cert-info">
-Enter signature information
+Enter names of signers here (only two lines allowed &mdash; press shift-return to add second line)
 </td>
 </tr>
 <tr>
