@@ -60,7 +60,7 @@ ad_form -extend -name certificates -form {
     {signature_4:text(textarea),optional {label ""} {html {cols 30}}}
     {signature_5:text(textarea),optional {label ""} {html {cols 30}}}
     {signature_6:text(textarea),optional {label ""} {html {cols 30}}}
-    {continuing_ed_credit_info:text(textarea) {label ""} {html {cols 70 rows 6}}}
+    {continuing_ed_credit_info:text(textarea),optional {label ""} {html {cols 70 rows 6}}}
 } -on_request {
     set image_id ""
     db_0or1row get_image_info "select item_id as image_id, live_revision as image_revision_id from cr_items where parent_id=:package_id"
