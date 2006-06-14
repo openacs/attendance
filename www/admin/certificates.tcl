@@ -117,10 +117,16 @@ ad_form -extend -name certificates -form {
 	    set image_id [content::revision::item_id -revision_id $image_revision_id]
 	}
     }
+    if {([info exists new_image] && $new_image ne "") \
+	    || ([info exists use_sw_submit] && $use_sw_submit ne "") \
+	|| ([info exists set_sw_submit] && $set_sw_submit ne "") } {
 
     if {[info exists new_image] && $new_image ne ""} {
-	ad_returnredirect -message "Using the default image" [export_vars -base "certificates" {user_id community_id certificate certifies_that attended description_label course_description community_name instructors signature_1 signature_2 signature_3 signature_4 signature_5 signature_6 continuting_ed_credit_info}]
+
+	set image_info "<img src='../image/${image_revision_id}' alt='Certificate logo image' height='200'/>"
+	ad_return_template
 	ad_script_abort
+	
     }
     if {[info exists use_sw_submit] && $use_sw_submit ne ""} {
 	if {$image_id eq ""} {
@@ -139,9 +145,8 @@ ad_form -extend -name certificates -form {
 			  -target_item_id $image_id]
 
 	content::item::set_live_revision -revision_id $image_revision_id
-	
-	ad_returnredirect -message "Using the default image" [export_vars -base "certificates" {user_id community_id certificate certifies_that attended description_label course_description community_name instructors signature_1 signature_2 signature_3 signature_4 signature_5 signature_6 continuting_ed_credit_info}]
-	ad_script_abort
+	set image_info "<img src='../image/${image_revision_id}' alt='Certificate logo image' height='200'/>"	
+
     }
 
     if {[info exists set_sw_submit] && $set_sw_submit ne ""} {
@@ -168,10 +173,8 @@ ad_form -extend -name certificates -form {
 		-target_item_id $site_wide_image_id 
 	    content::item::set_live_revision -revision_id [content::item::get_live_revision -item_id $site_wide_image_id]
 	}
-	ad_returnredirect -message "Using default image" [export_vars -base "certificates" {user_id community_id certificate certifies_that attended description_label course_description community_name instructors signature_1 signature_2 signature_3 signature_4 signature_5 signature_6 continuting_ed_credit_info}]
-	ad_script_abort
     }
-
+} else {
     set user_id [split $user_id]
     template::multirow create users name
     foreach user $user_id {
@@ -210,6 +213,7 @@ ad_form -extend -name certificates -form {
     file delete $rml_tmpname
     file delete $pdf_tmpname
     ad_script_abort
+}
 }
 
 ad_return_template
