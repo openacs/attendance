@@ -27,14 +27,14 @@
           </pageGraphics>
           <frame id="f1" x1=".25in" y1="6.5in" width="8in"
               height="1.5in"/>
-          <frame id="f2" x1=".25in" y1="5in" width="8in"
-              height="1.2in"/>
-          <frame id="f3" x1=".25in" y1="3in" width="8in"
+          <frame id="f2" x1=".25in" y1="4.7in" width="8in"
+              height="1.8in"/>
+          <frame id="f3" x1=".25in" y1="2.7in" width="8in"
               height="2in"/>
-          <frame id="f4" x1=".25in" y1="2in" width="8in"
-              height=".8in"/>
+          <frame id="f4" x1=".25in" y1="1.7in" width="8in"
+              height="1in"/>
           <frame id="f5" x1=".25in" y1=".7in" width="8in"
-              height=".8in"/>
+              height="1in"/>
           <frame id="f6" x1=".25in" y1=".2in" width="8in"
               height=".5in"/>
     </pageTemplate>
@@ -56,13 +56,13 @@
     fontSize="18"
     leading="19"
     spaceBefore=".1cm"
-    spaceAfter=".1cm"
+    spaceAfter=".2cm"
     alignment="CENTER"
      />
      <paraStyle name="p"
      fontName="Times-Roman"
-     fontSize="14"
-     leading="16"
+     fontSize="12"
+     leading="14"
      leftIndent="5"
      spaceBefore=".1cm"
      spaceAfter=".1cm"
