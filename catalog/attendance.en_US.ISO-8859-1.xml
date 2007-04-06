@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="attendance" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
+
+  <msg key="Attended">Attended</msg>
+  <msg key="CERTIFICATE_OF_ATTENDANCE">CERTIFICATE OF ATTENDANCE</msg>
+  <msg key="Continuting_Education_Credit_Information">Continuing Education Credit Information</msg>
+  <msg key="Date">Date</msg>
+  <msg key="Description">Description</msg>
+  <msg key="This_certifies_that">This certifies that</msg>
+</message_catalog>
