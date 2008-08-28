@@ -49,7 +49,7 @@ template::list::create \
     -no_data "No summary" \
     -elements {
 	member_name { label "Student" }
-	attendance { label "Attendance" }
+	attendance { label "Attendance" aggregate {count}}
 	rate { label "Rate" display_template {<div style="text-align:right;">@summary.rate@</div>}}
     }
 
