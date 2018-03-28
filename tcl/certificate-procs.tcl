@@ -24,7 +24,7 @@ ad_proc -private attendance_certificate::reportlab_available_p {
 
 ad_proc -private attendance_certificate::trml2pdf_command {
 } {
-    comand to pass to exec for trml2pdf
+    command to pass to exec for trml2pdf
 } {
 
 }

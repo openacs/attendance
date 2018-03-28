@@ -1,5 +1,5 @@
 ad_page_contract {
-	diplay certificate logo image
+	display certificate logo image
 }
 
 set revision_id [string trim [ad_conn path_info] /]
