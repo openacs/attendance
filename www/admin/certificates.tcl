@@ -40,7 +40,7 @@ set site_wide_admin_p [permission::permission_p \
 	 -privilege "admin"]
 if {$site_wide_admin_p} {
     ad_form -extend -name certificates -form {
-	{set_sw_submit:text(submit) {label "Make this the site wide default image"}}
+	{set_sw_submit:text(submit) {label "Make this the site-wide default image"}}
     }
 }
 ad_form -extend -name certificates -form {
